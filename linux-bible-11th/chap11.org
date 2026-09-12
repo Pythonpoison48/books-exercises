@@ -1,0 +1,2 @@
+#+title: Exercises chapter 11 Linux Bible 11th edition
+#+DATE: <2026-09-12 sam.>
