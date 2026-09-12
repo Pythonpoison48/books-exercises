@@ -1,0 +1,106 @@
+#+title: Exercises chapter 10 Linux Bible 11th edition
+#+DATE: <2026-09-12 sam.>
+
+
+* Exercise 1:
+to find which package provide the =mogrify= command
+we use the =dnf provides= command
+
+#+begin_src shell
+
+dnf provides mogrify
+
+#+end_src
+
+
+* Exercise 2:
+
+To find infos about =ImageMagick= we
+use the =dnf info= command
+
+#+begin_src shell
+dnf info ImageMagick
+#+end_src
+
+which gives us the following url for the homepage:
+https://imagemagick.org/
+
+* Exercise 3:
+To install ImageMagick we use the =dnf install= command with sudo.
+
+#+begin_src shell
+sudo dnf install ImageMagick
+#+end_src
+
+* Exercise 4:
+
+To query all the documentation file in  =ImageMagick=
+we use the  =rpm= command.
+
+#+begin_src shell
+rpm -qd ImageMagick
+#+end_src
+
+* Exercise 5:
+
+To print the changelog of the =ImageMagick= package,
+we can use the =dnf changelog= command.
+
+#+begin_src shell
+dnf changelog ImageMagick
+#+end_src
+
+* Exercise 6:
+
+First we delete mogrify with
+#+begin_src shell
+sudo rm /usr/bin/mogrify
+#+end_src
+
+Then we check the package via the =rpm= command
+
+#+begin_src shell
+rpm -V ImageMagick
+#+end_src
+
+
+* Exercise 7:
+
+To reinstall ImageMagick we use =dnf reinstall=
+then we check again with =rpm -V ImageMagick=
+
+#+begin_src shell
+# we reinstall
+sudo dnf reinstall ImageMagick
+
+# then we check
+rmp -V ImageMagick  # should return nothing
+#+end_src
+
+* Exercise 8:
+
+To download a package directly into our current directory
+we can use =dnf download=:
+
+#+begin_src shell
+dnf download ImageMagick
+#+end_src
+
+* Exercise 9:
+
+To query information about a package file =.rpm=
+we can use the =rpm= command
+with =-q= (query)
+and  =-i= (info)
+flags
+#+begin_src shell
+rpm -qi ./ImageMagick-7.1.2.27-1.fc44.i686.rpm
+#+end_src
+
+* Exercise 10
+To remove the package that provide the mogrify command
+we can use : =dnf remove= with =dnf provides mogrify= as input
+
+#+begin_src shell
+sudo dnf remove $(dnf provides mogrify)
+#+end_src
