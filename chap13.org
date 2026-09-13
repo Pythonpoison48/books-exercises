@@ -1,0 +1,48 @@
+#+title: Linux bible chapter 12
+#+DATE: <2026-09-13 dim.>
+
+
+* Exercise 1:
+
+To login via ssh to a system
+#+begin_src shell
+# On the system :
+sudo systemctl enable --now sshd.service
+
+# then on the client
+
+ssh <user>@<ip_address>
+#+end_src
+
+
+* Exercise 2:
+
+Once your logged you can use commands just like on your machine
+
+#+begin_src shell
+
+# Once your logged :
+
+cat /etc/system-release
+#+end_src
+
+* Exercise 3:
+
+To execute remote graphical application via ssh you can use x11 forwarding
+
+#+begin_src shell
+emacs -nw /etc/ssh/ssh_config
+# uncommenent the line starting with  X11_forwarding
+# and write a yes instead of a no
+#+end_src
+
+#+begin_src shell
+
+# On the client machine
+
+ssh -X <user>@<ip_address>
+
+# then
+emacs
+
+#+end_src
