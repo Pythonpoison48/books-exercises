@@ -1,2 +1,134 @@
 #+title: Exercises chapter 11 Linux Bible 11th edition
 #+DATE: <2026-09-12 sam.>
+
+* Exercise 1:
+To create a local user account with:
+- username => jbaxter
+- name => John Baxter
+- shell => /bin/sh
+- password => My1N1te0ut!
+we use
+#+begin_src shell
+sudo useradd -s /bin/sh -c "John Baxter" -p $(mkpasswd My1N1teOut!) jbaxter
+#+end_src
+
+* Exercise 2:
+To create a group account named testing with a gid of 315
+we can use:
+#+begin_src shell
+sudo groupadd -g 315 testing
+#+end_src
+
+* Exercise 3:
+To add jbaxter to testing and bin groups we can use:
+#+begin_src
+sudo usermod -aG testing,bin jbaxter
+#+end_src
+
+* Exercise 4:
+
+To login as jbaxter we can use =su=
+
+#+begin_src shell
+su jbaxter
+#+end_src
+
+Then we change our primary group and create the file
+
+#+begin_src shell
+newgrp testing
+touch /home/jbaxter/file.txt
+#+end_src
+
+* Exercise 5:
+
+To see the id that was assigned to us :
+
+#+begin_src shell
+id
+uid=1001(jbaxter) gid=315(testing) groups=315(testing),1(bin),1001(jabxter) ...
+#+end_src
+
+To delete =jbaxter= account without deleting the home directory we can use
+
+#+begin_src shell
+sudo userdel jbaxter
+#+end_src
+
+
+* Exercise 6:
+To find all the files/directory who belong to jbaxter uid (1001)
+we can use
+#+begin_src shell
+sudo find / -uid 1001
+#+end_src
+
+* Exercise 7:
+
+To copy  =/etc/services/= to the default skeleton directory (=/etc/skel=)
+we use:
+
+#+begin_src shell
+sudo cp /etc/services /etc/skel/
+#+end_src
+
+To create the user mjones with
+homedir => /home/maryjones
+name => "Mary Jones"
+we use
+#+begin_src shell
+sudo useradd -c "Mary Jones" -d  /home/maryjones mjones
+#+end_src
+
+* Exercise 8:
+
+To find all the files belonging to =mjones= (1001) we use
+
+#+begin_src shell
+sudo find / -uid 1001
+
+#+end_src
+
+We see the files belonging to mjones and the files who belonged to jbaxter
+because they share the same uid
+
+* Exercise 9:
+
+To create the file we use =touch=
+
+#+begin_src shell
+touch /tmp/maryjones
+
+#+end_src
+
+Then to set permissions for the =bin= user we use:
+
+#+begin_src shell
+setfacl -m u:bin:rw /tmp/maryjones
+#+end_src
+
+Then to set permission for the =lp= group
+#+begin_src shell
+setfacl -m g:lp:rw /tmp/maryjones
+#+end_src
+
+* Exercise 10:
+
+We create the dir :
+
+#+begin_src shell
+mkdir /tmp/mydir
+#+end_src
+
+Then we assign =rwx= perms for the =adm= user:
+#+begin_src shell
+sudo setfacl d:u:adm:rwx
+
+# Then we create =/tmp/mydir/newfile.txt= and =/tmp/mydir/testing=
+# but we see that admin only as effectively only =rw= on the file
+mkdir /tmp/mydir/testing
+touch /tmp/mydir/newfile.txt
+
+# What we need to do is
+chmod +x /tmp/mydir/newfile.txt
+#+end_src
