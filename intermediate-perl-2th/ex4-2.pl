@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 use strict;
 use warnings;
 use Data::Dumper;
@@ -12,13 +12,13 @@ my %all = (
     Professor => \@professor,
 );
 
-Dumper( %{ \%all } );
 
 check_items_for_all( \%all );
 
 sub check_items_for_all {
-    my %hash = %{ $_[0] };
-    map { &check_required_items( $_, %hash{$_} ) } keys %hash;
+    my $hash_ref = shift;
+    my @keys = keys % { $hash_ref };
+    map { &check_required_items($_, ${ $hash_ref }{$_}) } @keys
 }
 
 sub check_required_items {
