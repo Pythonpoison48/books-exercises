@@ -17,13 +17,11 @@ ssh <user>@<ip_address>
 
 * Exercise 2:
 
-Once your logged you can use commands just like on your machine
+To execute remote command using ssh
 
 #+begin_src shell
 
-# Once your logged :
-
-cat /etc/system-release
+ssh <user>@<ip_address> "hostname"
 #+end_src
 
 * Exercise 3:
@@ -44,5 +42,73 @@ ssh -X <user>@<ip_address>
 
 # then
 emacs
+
+#+end_src
+
+* Exercise 4/5:
+
+You can use scp or rsync . Be careful that scp
+- doesn't save attributes (permission,dates/time stamp, etc...)
+- lose symbolic links
+- Always copy files even when unnecessary
+#+begin_src shell
+
+# with scp
+scp -r <user>@<ip_address>:/usr/share/help/es /tmp/
+
+# with rsync
+
+rsync -avl <user>@<ip_address>:/usr/share/help/es /tmp/
+
+#+end_src
+
+** scp args
+-r for recursive
+
+** rsync args
+-a for recursive
+-v for verbose
+-l for symbolic links
+
+* Exercise 6
+To create our ssh key we use =ssh-keygen=
+
+#+begin_src shell
+
+ssh-keygen
+
+#+end_src
+
+Then we use =ssh-copy-id= , type the password .
+
+#+begin_src shell
+
+ssh-copy-id -i ~/.ssh/key_linux_bible.pub <user>@<ip_address>
+
+#+end_src
+
+then we connect and voila !
+
+#+begin_src shell
+
+ssh -i ~/.ssh/key_linux_bible.pub <user>@<ip_address>
+#+end_src
+
+* Exercise 7:
+
+To store all authentification messages we just need to add this line
+into =rsyslog.conf=
+
+#+begin_src shell
+#all authentification messages are going into /var/log/myauth
+authpriv.info /var/log/myauth
+#+end_src
+
+* Exercise 8:
+
+To find the largest directory in =/usr/share=
+we can do
+#+begin_src shell
+du -s /usr/share/* | sort -rn
 
 #+end_src
