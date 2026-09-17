@@ -1,0 +1,65 @@
+{
+   "maryann.girl.hut" : {
+      "gilligan.crew.hut" : 6732294,
+      "fileserver.copyroom.hut" : 6843198,
+      "skipper.crew.hut" : 6011220,
+      "professor.hut" : 5726244,
+      "ginger.girl.hut" : 6393480,
+      "maryann.girl.hut" : 5791458,
+      "laser3.copyroom.hut" : 5917374
+   },
+   "laser3.copyroom.hut" : {
+      "skipper.crew.hut" : 6222546,
+      "fileserver.copyroom.hut" : 6042204,
+      "gilligan.crew.hut" : 6178758,
+      "laser3.copyroom.hut" : 6268902,
+      "maryann.girl.hut" : 5539776,
+      "ginger.girl.hut" : 5712006,
+      "professor.hut" : 5726898
+   },
+   "ginger.girl.hut" : {
+      "laser3.copyroom.hut" : 6468900,
+      "maryann.girl.hut" : 6111288,
+      "skipper.crew.hut" : 6718596,
+      "fileserver.copyroom.hut" : 5695326,
+      "ginger.girl.hut" : 6912120,
+      "professor.hut" : 5488068,
+      "gilligan.crew.hut" : 5959446
+   },
+   "professor.hut" : {
+      "gilligan.crew.hut" : 6441342,
+      "skipper.crew.hut" : 6454158,
+      "fileserver.copyroom.hut" : 5585484,
+      "ginger.girl.hut" : 6283500,
+      "professor.hut" : 6685044,
+      "maryann.girl.hut" : 6737682,
+      "laser3.copyroom.hut" : 6109770
+   },
+   "skipper.crew.hut" : {
+      "fileserver.copyroom.hut" : 6062916,
+      "skipper.crew.hut" : 5784972,
+      "gilligan.crew.hut" : 6587292,
+      "maryann.girl.hut" : 5908146,
+      "laser3.copyroom.hut" : 6304776,
+      "professor.hut" : 5726670,
+      "ginger.girl.hut" : 6249618
+   },
+   "fileserver.copyroom.hut" : {
+      "gilligan.crew.hut" : 6908124,
+      "fileserver.copyroom.hut" : 6156180,
+      "skipper.crew.hut" : 5736948,
+      "professor.hut" : 6014226,
+      "ginger.girl.hut" : 5739828,
+      "maryann.girl.hut" : 5939214,
+      "laser3.copyroom.hut" : 6555648
+   },
+   "gilligan.crew.hut" : {
+      "gilligan.crew.hut" : 5603142,
+      "professor.hut" : 6081732,
+      "ginger.girl.hut" : 6076338,
+      "fileserver.copyroom.hut" : 6038394,
+      "skipper.crew.hut" : 5799960,
+      "laser3.copyroom.hut" : 6166800,
+      "maryann.girl.hut" : 7659462
+   }
+}
