@@ -1,0 +1,126 @@
+#+title: Linux bible exercises chapter 14
+#+date: <2026-09-17 jeu.>
+
+
+* Exercise 2:
+
+To check active network interfaces available on your computer you can use:
+#+begin_src shell
+ip a
+#+end_src
+
+
+* Exercise 3:
+
+To contact google.com while ensuring that the DNS is working properly
+we can use =ping=
+
+#+begin_src shell
+ping google.com
+#+end_src
+
+
+* Exercise 4:
+
+To see which routes are being use to communicate outside our local network
+we can use =route= or =ip route=
+#+begin_src shell
+
+route
+# or
+ip route
+#+end_src
+
+* Exercise 5:
+
+To trace the route we take to connect to google.com
+we can use =traceroute=
+
+#+begin_src shell
+
+sudo  traceroute google.com
+
+#+end_src
+
+* Exercise 6:
+
+To view our network activity from cockpit
+we need to install it
+
+#+begin_src shell
+
+# fedora
+sudo dnf install cockpit
+
+# debian
+
+sudo apt install cockpit
+
+#+end_src
+
+then enable the service
+
+#+begin_src shell
+
+sudo systemctl enable --now cockpit
+
+#+end_src
+
+then go to https://localhost:9090/network
+
+* Exercise 7
+
+To use =myownhost= as an alias for localhost
+we need to modify =/etc/hosts= to add this line:
+=127.0.0.1 myownhost=
+
+* Exercise 8:
+
+we can see our dns using
+#+begin_src shell
+cat /etc/resolv.conf
+#+end_src
+
+We can use =dig=  to see which dns we are using on our system to solve hostname to ip
+
+#+begin_src shell
+dig google.com
+#+end_src
+
+
+* Exercise 9:
+
+To add a custom route to 192.168.99.0/24 network via 192.168.0.5:
+we can do
+#+begin_src shell
+sudo route add -net 192.168.99.0 netmask 255.255.255.0 gw 192.168.0.5 dev eth0
+# or
+sudo ip route add 192.168.99.0 via 192.168.0.5 dev eth0
+#+end_src
+
+* Exercise 10:
+
+to see if ipv4 packet can be routed between interface
+we can do :
+#+begin_src shell
+cat /proc/sys/net/ipv4/ip_forward
+#+end_src
+0 means  it's disabled 1 means it's enabled
+
+* Bonus:
+To check if our interfaces support ipv6 we can do
+#+begin_src shell
+sudo sysctl -a | grep disable_ipv6
+#+end_src
+
+we will see output like this:
+
+#+begin_src shell
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.ens18.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
+
+#+end_src
+
+if disable_ipv6 = 0 =ipv6= is enabled else it's disabled

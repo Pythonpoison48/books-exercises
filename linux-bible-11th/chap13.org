@@ -100,7 +100,7 @@ To store all authentification messages we just need to add this line
 into =rsyslog.conf=
 
 #+begin_src shell
-#all authentification messages are going into /var/log/myauth
+#info level authentification messages are going into /var/log/myauth
 authpriv.info /var/log/myauth
 #+end_src
 
