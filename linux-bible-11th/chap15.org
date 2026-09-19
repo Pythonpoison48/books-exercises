@@ -1,0 +1,115 @@
+#+title: Chapter 15 linux bible
+#+date: <2026-09-19 sam.>
+
+* Exercise 1:
+To see which init system our system use
+
+#+begin_src shell
+# method 1
+ps ‐ef | head
+
+
+# to verify if it's a symlink
+ls -l /sbin/init
+#+end_src
+
+#+RESULTS:
+lrwxrwxrwx. 1 root root 22 14 sept. 02:00 /sbin/init -> ../lib/systemd/systemd
+
+* Exercise 2:
+To check a service status:
+
+#+begin_src shell
+# systemd
+sudo systemctl status sshd.service
+
+#openrc
+rc-service sshd status
+#+end_src
+
+* Exercise 3:
+
+To see our previous and current runlevel
+we can use =runlevel= or =who=
+
+#+begin_src shell
+runlevel
+# or
+who -r
+#+end_src
+
+On my system I have this
+#+RESULTS:
+: unknown
+
+you should get something like this
+=N 5= Means system booted at runlevel 5
+=3 5= Previous runlevel is 3 , current runlevel is 5
+
+* Exercise 4:
+
+To get our default runlevel
+
+#+begin_src shell
+# on systemd
+systemctl get-default
+
+# on openrc
+rc-status -l
+#+end_src
+
+To change our default runlevel
+
+#+begin_src shell
+#on systemd
+systemctl set-default <runlevel>
+
+# on openrc
+openrc <runlevel>
+
+#+end_src
+
+* Exercise 5/6:
+
+To list active services on linux
+
+#+begin_src shell
+#on systemd
+systemctl list-unit-files --type=service | grep -v disabled
+
+#on openrc
+rc-status
+
+#+end_src
+
+* Exercise 7-9:
+
+To show a service status (for example cups):
+
+#+begin_src shell
+#on systemd
+systemctl status cups.service
+
+#on openrc
+rc-service cups status
+#+end_src
+
+
+to restart a service:
+
+#+begin_src shell
+# on systemd
+systemctl restart cups.service
+
+#on openrc
+rc-service cups restart
+#+end_src
+
+* Exercise 10:
+To reload all services on a system we use =systemctl daemon-reload=
+
+#+begin_src shell
+systemctl daemon-reload
+
+# there is no equivalent command on openrc
+#+end_src
