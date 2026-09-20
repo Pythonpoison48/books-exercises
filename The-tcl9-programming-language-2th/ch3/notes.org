@@ -1,0 +1,74 @@
+#+title: Notes
+
+
+* Comments quirk
+
+In tcl you need to match braces ({}) in comments because
+Tcl checks for comments after parsing the command into words but before
+substitutions
+#+begin_src tcl
+
+proc demo {n} {
+    # exemple comment with { character
+    return $n
+}
+demo
+#+end_src
+When parsing the above script into words, Tcl encounters the left brace
+character. At that point, it will look for the matching closing brace, even across
+line boundaries. Not finding one will lead to the error.
+
+* Renaming
+
+To rename a command we can use =rename= like this.
+#+begin_src tcl
+
+rename OLDNAME NEWNAME
+
+#+end_src
+We can use rename to wrap commands to add new functionalities
+we can even rename builtin commands (*strongly advised against doing so*)
+
+** Renaming puts
+
+#+begin_src tcl
+rename puts builtin_puts
+
+proc puts args {
+    set str [string toupper [lindex $args end]]
+    builtin_puts {*}[lreplace $args end end $str]
+}
+
+puts "hello world!"
+#+end_src
+
+** One time initalisation in commands
+
+If one of our commands require to do an action only once
+for example a function that write to a specific file.
+We have to create the file before using it
+
+One way to tackle this would be to check the file every call.
+Which is expensive.
+
+Another problem is the name of the logs.
+
+We could use a global variable , or
+
+One other way would be to redefine our procedure in the procedure itself
+ using =tailcall= command explained in chapter =14.1.7=
+
+#+begin_src tcl
+proc write_logs {filename} {
+    set outfile1 [open $filename w+]
+    puts $outfile1 "logs start"
+    close $outfile1
+
+    proc write_logs {filename } {
+        set outfile1 [open $filename w+]
+        puts $outfile1 "continue"
+        close $outfile1
+    }
+    tailcall write_logs
+}
+#+end_src
