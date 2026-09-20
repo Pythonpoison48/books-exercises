@@ -45,30 +45,154 @@ puts "hello world!"
 ** One time initalisation in commands
 
 If one of our commands require to do an action only once
-for example a function that write to a specific file.
-We have to create the file before using it
+for example a log function that logs output to a file if debug_mode
+is on. Two problem/annoyance :
+- We need to check if debug_mode is on or off every call
+- We need to specify the log file every call
 
-One way to tackle this would be to check the file every call.
-Which is expensive.
+Those are not big problems but it's repetitive
+and error prone
 
-Another problem is the name of the logs.
-
-We could use a global variable , or
-
+We could use a default parameter or global variables , or
 One other way would be to redefine our procedure in the procedure itself
- using =tailcall= command explained in chapter =14.1.7=
+with string interpolation as =proc= is just another command in tcl.
+using =tailcall= command explained in chapter =14.1.7=
 
 #+begin_src tcl
-proc write_logs {filename} {
-    set outfile1 [open $filename w+]
-    puts $outfile1 "logs start"
-    close $outfile1
 
-    proc write_logs {filename } {
-        set outfile1 [open $filename w+]
-        puts $outfile1 "continue"
-        close $outfile1
+set debug_mode 0
+set debug_file "myfile.txt"
+
+
+# our log procedure
+proc log {text debug_mode debug_file} {
+    if { $debug_mode == 1 } {
+        # if we are debugging
+        puts "debug mode on logging start"
+        # we use string interpolation to create a
+        # logging procedure redifining log
+        # which will output text to the file we assigned to it on the first
+        # call
+        proc log {text} "
+            set fp [open $debug_file w+]
+            puts \$fp \$text
+        "
+        tailcall log $text
+
+    } else {
+        puts "debug mode off doing nothing"
+        # if we are not in debug mode
+        # log does nothing
+        # we still take the same number of args
+        # or else the program would fail
+        proc log {text} {
+            return
+        }
+        tailcall log $text
     }
-    tailcall write_logs
 }
+
+# our initial call
+log "My log" $debug_mode $debug_file
+
+log "Test"
+
+log "1 2 3"
+
+#+end_src
+
+* Enumerating commands
+
+To list commands we can use
+#+begin_src tcl
+info commands PATTERN
+#+end_src
+
+exemple:
+
+#+begin_src tcl
+info commands
+print_args tell socket subst open eof lremove pwd _SetupCawtPkgs glob list pi...
+
+info commands co*
+coroinject coroutine concat const continue coroprobe
+
+info commands ::tcl::*::*
+::tcl::mathfunc::round ::tcl::mathfunc::wide ::tcl::mathfunc::isinf ::tcl::ma...
+#+end_src
+
+* Some Commands type
+
+To see a command type
+#+begin_src tcl
+info cmdtype command
+#+end_src
+
+** Ensembles
+
+Commands ensembles are commands with multiple words
+one of them is =string=
+#+begin_src tcl
+string length abcd
+string index abcd end
+string range abcd 1 2 bc
+#+end_src
+
+** native
+Native commands are commands written in C
+
+** proc
+
+procedure are commands at the script level.
+They can have a name or be anonymous
+
+* Defining procedure using proc
+
+=proc= is just another command in tcl.
+
+#+begin_src tcl
+proc Name PARAMS BODY
+#+end_src
+
+We saw how to create named commands and redefine them
+Now lets see how we can create commands
+
+#+begin_src tcl
+proc make_logger {logname} {
+
+    proc logto$logname text "
+        set fp [open $logname w+]
+        puts \$fp \$text
+    "
+
+}
+
+make_logger test_logger
+
+logtotest_logger "my original text"
+logtotest_logger "\n \n and another ! "
+#+end_src
+
+** Parameter options
+
+*** Default parameter:
+
+we can specify default value for our parameters
+#+begin_src tcl
+
+proc log {text {level "INFO"}} {
+    puts "$level: $text"
+}
+
+#+end_src
+
+*** Variable number of arguments
+using args we can pass arbitrary number
+of arguments like this:
+#+begin_src tcl
+proc log {text {level "INFO"} args} {
+
+}
+
+
 #+end_src
